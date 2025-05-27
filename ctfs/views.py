@@ -125,6 +125,7 @@ def leaderboard(request):
 
 
 #  NEW VIEW: create a CTF (Admin/Staff only)
+
 @login_required
 def create_ctf(request):
     if not request.user.is_staff:
@@ -137,43 +138,47 @@ def create_ctf(request):
         category = request.POST.get('category')
         description = request.POST.get('description')
         date = request.POST.get('date')
-        points = int(request.POST.get('points'))
+        points = request.POST.get('points')
         solution = request.POST.get('solution')
 
         image_file = request.FILES.get('image')
-        chall_file = request.FILES.get('challange_files')
+        challenge_file = request.FILES.get('challenge_file')
 
-        image_url = None
-        file_url = None
-
-        #  Upload image to Supabase
-        if image_file:
-            image_ext = image_file.name.split('.')[-1]
-            image_name = f"{uuid.uuid4()}.{image_ext}"
-            supabase.storage.from_('ctf-images').upload(image_name, image_file.read())
-            image_url = supabase.storage.from_('ctf-images').get_public_url(image_name).get('publicUrl')
-
-        #  Upload challenge file to Supabase
-        if chall_file:
-            file_ext = chall_file.name.split('.')[-1]
-            file_name = f"{uuid.uuid4()}.{file_ext}"
-            supabase.storage.from_('ctf-files').upload(file_name, chall_file.read())
-            file_url = supabase.storage.from_('ctf-files').get_public_url(file_name).get('publicUrl')
-
-        # Create CTF object
-        ctf = CTFs.objects.create(
+        ctf = CTFs(
             title=title,
             type=type,
             category=category,
             description=description,
             date=date,
             points=points,
-            solution=solution,
-            image=image_url,
-            challange_files=file_url
+            solution=solution
         )
 
-        messages.success(request, "CTF created successfully!")
-        return redirect('ctf_detail', type=type.lower(), title=title)
+        # Image upload to Supabase
+        if image_file:
+            image_ext = image_file.name.split('.')[-1]
+            image_name = f"{uuid.uuid4()}.{image_ext}"
+            mime_type = mimetypes.guess_type(image_name)[0] or "application/octet-stream"
+            image_path = f"ctf-images/{image_name}"
+            supabase.storage.from_("ctf-images").upload(image_path, image_file.read(), {"content-type": mime_type})
+            image_url = supabase.storage.from_("ctf-images").get_public_url(image_path)
+            ctf.image = image_url
 
-    return render(request, 'ctfs/create_ctf.html')  # Template with form
+        # Challenge file upload to Supabase
+        if challenge_file:
+            file_ext = challenge_file.name.split('.')[-1]
+            file_name = f"{uuid.uuid4()}.{file_ext}"
+            mime_type = mimetypes.guess_type(file_name)[0] or "application/octet-stream"
+            file_path = f"ctf-files/{file_name}"
+            supabase.storage.from_("ctf-files").upload(file_path, challenge_file.read(), {"content-type": mime_type})
+            file_url = supabase.storage.from_("ctf-files").get_public_url(file_path)
+            ctf.challange_files = file_url
+
+        ctf.save()
+        messages.success(request, "CTF created successfully.")
+        return redirect('ctfs_url')
+
+    return render(request, 'ctfs/create_ctf.html', {
+        'ctf_types': CTFs.CTF_TYPE,
+        'categories': CTFs.CATEGORIES,
+    })
