@@ -1,0 +1,55 @@
+.guest-container {
+    max-width: 450px;
+    margin: 80px auto 40px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.guest-container h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.guest-container p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.guest-container .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.guest-container button {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.bg-blue-600 {
+    background-color: #2563eb;
+    color: white;
+}
+
+.bg-blue-600:hover {
+    background-color: #1d4ed8;
+}
+
+.bg-gray-700 {
+    background-color: #374151;
+    color: white;
+}
+
+.bg-gray-700:hover {
+    background-color: #1f2937;
+}

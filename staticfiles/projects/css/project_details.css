@@ -1,0 +1,57 @@
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.description-card {
+    max-width: 1000px;
+    height: 600px;
+    margin: 60px auto;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Dim the background with a transparent black overlay using ::before */
+.description-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(85, 80, 80, 0.4);
+    /* adjust opacity for dimness */
+    z-index: 1;
+}
+
+.description-card .overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 60px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.description-card .overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+}
+
+.description-card .overlay p {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    max-width: 800px;
+}

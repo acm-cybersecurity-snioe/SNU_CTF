@@ -1,0 +1,82 @@
+.projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    max-width: 1280px;
+    /* optional: to limit the container width */
+    margin: 0 auto;
+}
+
+.project-card {
+    flex: 1 1 calc(25% - 20px);
+    /* roughly 4 cards per row, minus gap */
+    max-width: calc(25% - 20px);
+    /* ensure max 4 cards in a row */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #113186;
+    transition: transform 0.2s ease-in-out;
+    min-width: 280px;
+    /* optional: prevent shrinking too small */
+}
+
+.project-card:hover {
+    transform:scale(0.97);
+    transition: 0.2s;
+}
+
+.project-card img {
+    width: 100%;
+    height: 240px;
+    /* increased height for bigger card */
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+.project-card h3 {
+    margin: 15px;
+    font-size: 1.3rem;
+    /* slightly bigger font */
+    color: hwb(0 100% 0%);
+    text-align: center;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.description-card {
+    max-width: 900px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.description-card h1 {
+    font-size: 2.5rem;
+    color: #222;
+    margin-bottom: 30px;
+}
+
+.description-card p {
+    font-size: 1.25rem;
+    color: #444;
+    line-height: 1.8;
+}
+
+.description-card img {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}

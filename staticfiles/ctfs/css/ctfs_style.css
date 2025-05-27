@@ -1,0 +1,103 @@
+/* ctf container */
+.ctf-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.page-heading {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #222;
+}
+
+/* grid layout */
+.ctf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+/* individual card styling */
+.ctf-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ctf-card:hover {
+    transform: translateY(-5px);
+}
+
+.ctf-card h3  {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+
+.ctf-card p {
+    font-size: 14px;
+    color: #000000;
+}
+
+/* view details button */
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #e2c025;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #b629af;
+}
+
+/* header with leaderboard link */
+.ctf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.ctf-header .page-heading {
+    margin: 0;
+    font-size: 50px;
+}
+
+/* leaderboard button */
+.leaderboard-link {
+    font-size: 20px;
+    /* bigger font */
+    padding: 14px 24px;
+    /* more padding */
+    border-radius: 12px;
+    /* slightly rounder */
+    font-weight: 600;
+    /* make text a bit bolder */
+    background-color: royalblue;
+    color:gold;
+    text-decoration: none;
+    border: 2px solid #CD7F32;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+.leaderboard-link:hover {
+    background-color: #f6cd02;
+    color: #ffffff;
+}

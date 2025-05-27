@@ -1,0 +1,94 @@
+.container {
+    width: 95%;
+    max-width: 1200px;
+    min-height: calc(100vh - 150px);
+    margin: 30px auto;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 60px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+h2 {
+    font-size: 36px;
+    color: #222;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.space-y-3 p {
+    margin: 20px 0;
+    font-size: 20px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.space-y-3 span {
+    font-weight: 700;
+    color: #111;
+    font-size: 22px;
+}
+
+.mt-6 {
+    margin-top: 40px;
+}
+
+button {
+    padding: 14px 28px;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.bg-red-600 {
+    background-color: #dc2626;
+    color: white;
+}
+
+.bg-red-600:hover {
+    background-color: #b91c1c;
+}
+
+.bg-blue-600 {
+    background-color: #2563eb;
+    color: white;
+}
+
+.bg-blue-600:hover {
+    background-color: #1d4ed8;
+}
+
+.bg-gray-700 {
+    background-color: #374151;
+    color: white;
+}
+
+.bg-gray-700:hover {
+    background-color: #1f2937;
+}
+
+.flex {
+    display: flex;
+}
+
+.space-x-4>*+* {
+    margin-left: 1.5rem;
+}
+
+.container {
+    position: relative;
+    /* Needed for absolute child positioning */
+}
+
+/* wrapper around the button */
+.signout-wrapper {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}

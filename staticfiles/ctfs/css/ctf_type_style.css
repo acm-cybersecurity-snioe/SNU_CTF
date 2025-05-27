@@ -1,0 +1,64 @@
+/* Container styling */
+
+
+.ctf-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Grid layout: 2 cards per row */
+.ctf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* Individual CTF card */
+.ctf-card {
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctf-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Title and description */
+.ctf-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.ctf-card p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+/* Button styling */
+.ctf-card .btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.ctf-card .btn:hover {
+    background-color: #45a049;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ctf-grid {
+        grid-template-columns: 1fr;
+        /* Stack cards on small screens */
+    }
+}

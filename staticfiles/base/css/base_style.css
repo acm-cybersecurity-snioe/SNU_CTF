@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Navbar container */
+.navbar {
+    height: 100px;
+    background-color: #063275;
+    color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Logo left, rest right */
+    padding: 0 30px;
+}
+
+/* Logo section */
+.nav_logo {
+    height: 50px;
+    width: 50px;
+    padding: 5px;
+}
+
+.logo {
+    background-image: url("../../icons/main_logo.png");
+    /* update path as needed */
+    background-size: cover;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transition: border 0.3s ease;
+}
+
+.logo:hover {
+    border: 2px solid whitesmoke;
+}
+
+/* Right side nav links */
+.nav_links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+/* Common nav item styles */
+.aboutme,
+.secondary,
+.CTFs {
+    width: 150px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: x-large;
+    color: goldenrod;
+    cursor: pointer;
+}
+
+.MyProfile {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    transition: transform 0.2s ease;
+    color: goldenrod;
+}
+
+.MyProfile i:hover {
+    transform: scale(1.1);
+    color: beige;
+}
+
+/* Hover border effect */
+.border:hover {
+    border: 2px solid whitesmoke;
+    border-radius: 8px;
+}
+
+
+body {
+    background-color: whitesmoke;
+}
+
+
+.about-section {
+    margin-top: 100px;
+    margin-right: 550px;
+    margin-left: 550px;
+    text-align: center;
+    margin-bottom: 100px;
+
+}
+
+.footer {
+    font-size: larger;
+    color: #E3B23C;
+    height: 500px;
+    text-align: left;
+    background-color: #031D44;
+    display: flex;
+    align-items: center;
+    padding-left: 0px;
+    padding-right: 30px;
+    justify-content: space-between;
+    /* Adjust spacing as needed */
+}
+
+.footer_links {
+    height: 200px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.footer_links i {
+    font-size: 100px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer_links a i :hover {
+    transform: scale(1.1);
+}
+
+.footer_links p {
+    margin-top: 10px;
+}
+
+
+/* ____________________XXXXXXXX________for dark mode _______________XXXXXXXXXXXXXXXXXXXXXX */
+
+body.dark-mode {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+body.dark-mode .navbar {
+    background-color: #001f4d;
+    color: #f0f0f0;
+}
+
+body.dark-mode .aboutme,
+body.dark-mode .secondary,
+body.dark-mode .CTFs,
+body.dark-mode .MyProfile {
+    color: #ffcc00;
+}
+
+body.dark-mode .footer {
+    background-color: #000c1a;
+    color: #ffcc00;
+}
+
+body.dark-mode .logo:hover {
+    border: 2px solid #f0f0f0;
+}
