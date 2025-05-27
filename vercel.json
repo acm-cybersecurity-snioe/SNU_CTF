@@ -5,9 +5,7 @@
             "use": "@vercel/python",
             "config":{
                 "maxLambdaSize": "50mb",
-                "runtime" : "pyhton3.13",
-                "buildCommand": "bash setup.sh"
-
+                "runtime" : "pyhton3.12"
             }
         }
     ],
@@ -18,7 +16,7 @@
             "dest": "portfolio_django/wsgi.py"
         },
         {
-            "src":"/static/(.*)",
+            "src":"/static/(./*)",
             "dest": "/static/$1"
         }
     ]
