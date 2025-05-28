@@ -1,63 +1,181 @@
 {% extends "navbar_footer.html" %}
 {% load static %}
-{% block title %}
-  {{ ctf.title }}
-{% endblock title %}
+
+{% block title %}{{ ctf.title }}{% endblock title %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'ctfs/css/ctfs_details_style.css' %}" />
 
 <div class="ctf-detail-container">
+  <!-- Back button -->
+  <div style="margin-bottom: 20px;">
+    <a href="{% url 'ctf_type' type=ctf.type|lower %}" class="btn" style="background-color: #6c757d;">
+      ← Back to {{ ctf.get_type_display }} CTFs
+    </a>
+  </div>
+
   <h2 class="ctf-title">{{ ctf.title }}</h2>
 
   <div class="ctf-meta">
     <p><strong>Type:</strong> {{ ctf.get_type_display }}</p>
+    <p><strong>Category:</strong> {{ ctf.get_category_display }}</p>
     <p><strong>Date:</strong> {{ ctf.date }}</p>
+    <p><strong>Points:</strong> {{ ctf.points }}</p>
   </div>
 
+
+
   <div class="ctf-description">
-    <p>{{ ctf.description }}</p>
+    <h3>Description:</h3>
+    <p>{{ ctf.description|linebreaks }}</p>
 
     {# Check if challenge file exists #}
     {% if ctf.challange_files %}
-      <br><br>
-      <a href="{{ ctf.challange_files }}" download class="btn download-btn">
-        <i><b>Download Challenge File</b></i>
-      </a>
+      <div style="margin: 20px 0;">
+        <a href="{{ ctf.challange_files }}" download class="btn download-btn" style="background-color: #17a2b8;" download>
+          <i><b>📁 Download Challenge File</b></i>
+        </a>
+      </div>
     {% else %}
-      <p><strong>Challenge File:</strong> Not provided.</p>
+      <p><strong>Challenge File:</strong> Not provided for this challenge.</p>
     {% endif %}
   </div>
 
   {# Messages block - shows success, error, info messages #}
   {% if messages %}
-    <ul class="messages">
+    <div class="messages" style="margin: 20px 0;">
       {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
+        <div class="alert alert-{{ message.tags }}" style="
+          padding: 15px; 
+          margin: 10px 0; 
+          border-radius: 5px;
+          {% if message.tags == 'success' %}background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724;{% endif %}
+          {% if message.tags == 'error' %}background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;{% endif %}
+          {% if message.tags == 'info' %}background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460;{% endif %}
+        ">
+          {{ message }}
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% endif %}
 
   {# Show "Already Solved" info if user has completed this challenge #}
   {% if solved %}
-    <div class="solved-box">
-      <strong>You have already solved this challenge.</strong>
+    <div class="solved-box" style="
+      background-color: #d4edda; 
+      border: 2px solid #28a745; 
+      padding: 15px; 
+      border-radius: 8px; 
+      margin: 20px 0;
+      text-align: center;
+    ">
+      <strong style="color: #155724;">✅ You have already solved this challenge and earned {{ ctf.points }} points!</strong>
     </div>
   {% endif %}
 
   {# Submission form #}
-  <form method="post" class="ctf-form">
-    {% csrf_token %}
-    <label for="answer">Enter Your Answer:</label>
-    <input
-      type="text"
-      name="answer"
-      id="answer"
-      class="form-control"
-      placeholder="Flag format: CTF{...}"
-      required
-    />
-    <button type="submit" class="btn">Submit</button>
-  </form>
+  <div class="ctf-form" style="margin-top: 30px;">
+    <h3>Submit Your Answer:</h3>
+    <form method="post" style="
+      background-color: #f8f9fa; 
+      padding: 20px; 
+      border-radius: 8px; 
+      border: 1px solid #dee2e6;
+    ">
+      {% csrf_token %}
+      <div style="margin-bottom: 15px;">
+        <label for="answer" style="display: block; margin-bottom: 5px; font-weight: bold;">Enter Your Answer:</label>
+        <input
+          type="text"
+          name="answer"
+          id="answer"
+          class="form-control"
+          placeholder="Flag format: CTF{...}"
+          required
+          style="
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            font-size: 16px;
+          "
+        />
+      </div>
+      <button type="submit" class="btn" style="
+        background-color: #007bff; 
+        color: white; 
+        padding: 10px 20px; 
+        border: none; 
+        border-radius: 4px; 
+        cursor: pointer;
+        font-size: 16px;
+      ">
+        Submit Answer
+      </button>
+    </form>
+  </div>
+
+  {# Navigation links #}
+  <div style="margin-top: 40px; text-align: center;">
+    <a href="{% url 'ctfs_url' %}" class="btn" style="background-color: #6c757d; margin-right: 10px;">All CTFs</a>
+    <a href="{% url 'leaderboard' %}" class="btn" style="background-color: #ffc107;">Leaderboard</a>
+  </div>
 </div>
+
+<style>
+/* Additional CSS for better styling */
+.ctf-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ctf-title {
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.ctf-meta {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.ctf-meta p {
+  margin: 5px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.download-btn {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .ctf-detail-container {
+    padding: 10px;
+  }
+  
+  .btn {
+    display: block;
+    margin: 10px 0;
+  }
+}
+</style>
+
 {% endblock content %}

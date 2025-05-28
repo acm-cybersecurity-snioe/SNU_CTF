@@ -3,9 +3,8 @@
 
 {% block title %}{{ type }} CTFs{% endblock title %}
 
-
 {% block content %}
-<link rel="stylesheet" href="{%static 'ctfs/css/ctf_type_style.css'%}">
+<link rel="stylesheet" href="{% static 'ctfs/css/ctf_type_style.css' %}">
 
 <h2>{{ type }} CTFs</h2>
 
@@ -14,14 +13,35 @@
         {% for ctf in ctfs %}
             <div class="ctf-card">
                 <h3>{{ ctf.title }}</h3>
-                <p><strong><i>Level:</i></strong>{{ctf.category}}</p>
+                <p><strong><i>Level:</i></strong> {{ ctf.get_category_display }}</p>
+                <p><strong>Type:</strong> {{ ctf.get_type_display }}</p>
                 <p><strong>Date:</strong> {{ ctf.date }}</p>
+                <p><strong>Points:</strong> {{ ctf.points }}</p>
                 <p><strong>Description:</strong> {{ ctf.description|truncatewords:20 }}</p>
-                <a href="{{ ctf.get_absolute_detail_url }}" class="btn">Solve Challenge</a>
+                
+                {# Use Django's URL tag for proper encoding #}
+                <a href="{% url 'ctf_detail' type=ctf.type|lower title=ctf.title %}" class="btn">Solve Challenge</a>
+                
+                {# Alternative: If you want to use the model method (should work with the fix) #}
+                {# <a href="{{ ctf.get_absolute_detail_url }}" class="btn">Solve Challenge</a> #}
+                
+                {# Debug info - remove when working #}
+                {% comment %}
+                <small style="display:block; margin-top:10px; color:#666;">
+                    Debug URL: {% url 'ctf_detail' type=ctf.type|lower title=ctf.title %}
+                </small>
+                {% endcomment %}
             </div>
         {% empty %}
-            <p>No CTFs in this category yet.</p>
+            <div class="ctf-card">
+                <p>No CTFs in this category yet.</p>
+                {% if user.is_staff %}
+                    <a href="{% url 'create_ctf' %}" class="btn">Create First CTF</a>
+                {% endif %}
+            </div>
         {% endfor %}
     </div>
 </div>
+
+
 {% endblock content %}

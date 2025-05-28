@@ -1,6 +1,9 @@
 from django.db import models
-from django.urls import reverse  # used for creating URLs to CTF detail pages
+from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+from urllib.parse import quote
+import mimetypes
 
 
 class CTFs(models.Model):
@@ -30,9 +33,7 @@ class CTFs(models.Model):
     category = models.CharField(max_length=3, choices=CATEGORIES, default='BAS')
 
     # 6. Optional image for the CTF challenge
-    # image = models.ImageField(upload_to='ctf_images/', blank=True, null=True)
-    image = models.URLField(blank=True, null=True)   #for supabase storage
-
+    image = models.URLField(blank=True, null=True)   # for supabase storage
 
     # 7. Description of the CTF challenge
     description = models.TextField()
@@ -40,15 +41,16 @@ class CTFs(models.Model):
     # 8. Date of the CTF (can be when it's hosted or added)
     date = models.DateField()
 
-    #points associates to the challange
+    # points associates to the challange
     points = models.IntegerField()
 
-    #optional files that the user can download 
-    # challange_files = models.FileField(upload_to='ctf_files/', blank=True, null=True)
-    challange_files = models.URLField(blank=True, null=True)#for supabase 
-   
+    # optional files that the user can download 
+    challange_files = models.URLField(blank=True, null=True)  # for supabase 
 
-    solution = models.TextField(max_length = 50)
+    solution = models.TextField(max_length=50)
+
+    # Optional: Add a slug field for better URL handling
+    slug = models.SlugField(max_length=120, blank=True, help_text="Auto-generated from title")
 
     # 9. Display the CTF's title as string representation in Django admin or shell
     def __str__(self):
@@ -59,31 +61,59 @@ class CTFs(models.Model):
         return reverse('ctf_detail', args=[self.type.lower(), self.id])
 
     def get_absolute_detail_url(self):
-        return reverse('ctf_detail', args=[self.type.lower(), self.title])
-    
-    
-    
-    # OVERRIDDEN save() method to upload files to Supabase buckets
-    def save(self, *args, **kwargs):
-        # Handle image upload
-        if hasattr(self, '_image_file') and self._image_file:
-            content = self._image_file.read()
-            path = f"ctf-images/{self._image_file.name}"
-            mime_type = mimetypes.guess_type(self._image_file.name)[0] or "application/octet-stream"
-            supabase.storage.from_("ctf-images").upload(path, content, {"content-type": mime_type})
-            self.image = supabase.storage.from_("ctf-images").get_public_url(path)
+        """
+        FIXED: Use Django's reverse with proper URL encoding
+        Instead of manually encoding, let Django handle it
+        """
+        return reverse('ctf_detail', kwargs={
+            'type': self.type.lower(), 
+            'title': self.title
+        })
 
-        # Handle challenge file upload
+    # Alternative method using slug (recommended for production)
+    def get_absolute_detail_url_slug(self):
+        """
+        Better approach: Use slug instead of title for URLs
+        """
+        if not self.slug:
+            self.slug = slugify(self.title)
+            self.save(update_fields=['slug'])
+        return reverse('ctf_detail_slug', kwargs={
+            'type': self.type.lower(), 
+            'slug': self.slug
+        })
+    
+    def save(self, *args, **kwargs):
+        # Auto-generate slug from title if not provided
+        if not self.slug:
+            self.slug = slugify(self.title)
+        
+        # Handle image upload (if you have supabase setup)
+        if hasattr(self, '_image_file') and self._image_file:
+            try:
+                from .supabase_client import supabase
+                content = self._image_file.read()
+                path = f"ctf-images/{self._image_file.name}"
+                mime_type = mimetypes.guess_type(self._image_file.name)[0] or "application/octet-stream"
+                supabase.storage.from_("ctf-images").upload(path, content, {"content-type": mime_type})
+                self.image = supabase.storage.from_("ctf-images").get_public_url(path)
+            except ImportError:
+                pass  # Supabase not configured
+
+        # Handle challenge file upload (if you have supabase setup)
         if hasattr(self, '_challenge_file') and self._challenge_file:
-            content = self._challenge_file.read()
-            path = f"ctf-files/{self._challenge_file.name}"
-            mime_type = mimetypes.guess_type(self._challenge_file.name)[0] or "application/octet-stream"
-            supabase.storage.from_("ctf-files").upload(path, content, {"content-type": mime_type})
-            self.challange_files = supabase.storage.from_("ctf-files").get_public_url(path)
+            try:
+                from .supabase_client import supabase
+                content = self._challenge_file.read()
+                path = f"ctf-files/{self._challenge_file.name}"
+                mime_type = mimetypes.guess_type(self._challenge_file.name)[0] or "application/octet-stream"
+                supabase.storage.from_("ctf-files").upload(path, content, {"content-type": mime_type})
+                self.challange_files = supabase.storage.from_("ctf-files").get_public_url(path)
+            except ImportError:
+                pass  # Supabase not configured
 
         # Call original save method
         super().save(*args, **kwargs)
-
 
 
 class UserCTFProgress(models.Model):
