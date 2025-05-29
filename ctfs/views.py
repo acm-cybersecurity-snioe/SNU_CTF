@@ -11,7 +11,8 @@ import uuid
 import mimetypes
 from django.db.models.functions import Coalesce
 from django.db.models import Value, IntegerField
-
+from django.db.models import Sum, Min, Value, IntegerField
+c
 # Import supabase client if available
 try:
     from .supabase_client import supabase
@@ -109,8 +110,11 @@ def ctf_detail_slug(request, type, slug):
 def leaderboard(request):
     leaderboard_data = (
         User.objects
-        .annotate(total_points=Coalesce(Sum('userctfprogress__points_awarded'), Value(0), output_field=IntegerField()))
-        .order_by('-total_points')
+        .annotate(
+            total_points=Coalesce(Sum('userctfprogress__points_awarded'), Value(0), output_field=IntegerField()),
+            first_solve_time=Min('userctfprogress__solved_at')  # earliest solve timestamp
+        )
+        .order_by('-total_points', 'first_solve_time')  # primary: highest points, secondary: earliest solve
     )
     return render(request, 'ctfs/leaderboard.html', {'leaderboard': leaderboard_data})
 
