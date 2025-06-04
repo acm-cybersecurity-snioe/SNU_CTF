@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from urllib.parse import quote
 import mimetypes
+from django.utils import timezone
 
 
 class CTFs(models.Model):
@@ -125,4 +126,29 @@ class UserCTFProgress(models.Model):
     class Meta:
         unique_together = ('user', 'ctf')  # Prevent multiple entries per user/ctf
 
-        
+
+
+
+# Add this to your models.py - Update the Comment model
+
+class Comment(models.Model):
+    ctf = models.ForeignKey(CTFs, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    posted_at = models.DateTimeField(auto_now_add=True)
+    
+    # New fields for reply system
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    
+    class Meta:
+        ordering = ['-posted_at']
+    
+    def __str__(self):
+        return f"Comment by {self.user.username} on {self.ctf.title}"
+    
+    @property
+    def is_reply(self):
+        return self.parent is not None
+    
+    def get_replies(self):
+        return self.replies.all().order_by('posted_at')

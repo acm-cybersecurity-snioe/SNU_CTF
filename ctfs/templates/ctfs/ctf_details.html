@@ -5,6 +5,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'ctfs/css/ctfs_details_style.css' %}" />
+<link rel="stylesheet" href="{% static 'ctfs/css/comments_dropdown.css' %}" />
 
 <div class="ctf-detail-container">
   <!-- Back button -->
@@ -54,6 +55,7 @@
     </div>
   {% endif %}
 
+  <!-- Answer submission form -->
   <div class="ctf-form">
     <form method="post">
       {% csrf_token %}
@@ -66,10 +68,83 @@
         placeholder="Flag format: CTF{...}"
         required
       />
-      <button type="submit" class="btn">Submit Answer</button>
+      <button type="submit" name="answer_submit" class="btn">Submit Answer</button>
     </form>
   </div>
 
+</div>
+
+<!-- Comments Section -->
+<div class="comment-section">
+  <hr>
+  
+  <!-- Toggle button for comments -->
+  <button class="comments-toggle collapsed" id="comments-toggle" onclick="toggleComments()">
+    <div class="toggle-content">
+      <span id="toggle-text">Show Comments & Discussions</span>
+      <span class="comment-count">({{ comments.count }} comments)</span>
+    </div>
+    <span class="toggle-icon" id="toggle-icon">▼</span>
+  </button>
+
+  <!-- Comments content (hidden by default) -->
+  <div class="comments-content" id="comments-content">
+    
+    <!-- Comment form -->
+    <div class="comment-form">
+      <h4>💬 Add a Comment</h4>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="comment_submit" class="btn">Post Comment</button>
+      </form>
+    </div>
+
+    <!-- List comments -->
+    <div class="comments-list">
+      {% for comment in comments %}
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-meta">
+              <span class="comment-username">{{ comment.user.username }}</span>
+              <span class="comment-date">{{ comment.posted_at|date:"M d, Y H:i" }}</span>
+            </div>
+          </div>
+          
+          <div class="comment-text">
+            {{ comment.text|linebreaks }}
+          </div>
+        </div>
+      {% empty %}
+        <div class="no-comments">
+          <p>No comments yet. Be the first to start the discussion!</p>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
 
 </div>
+
+<script>
+function toggleComments() {
+    const content = document.getElementById('comments-content');
+    const toggle = document.getElementById('comments-toggle');
+    const toggleText = document.getElementById('toggle-text');
+    const toggleIcon = document.getElementById('toggle-icon');
+    
+    if (content.classList.contains('show')) {
+        content.classList.remove('show');
+        toggle.classList.add('collapsed');
+        toggleText.textContent = 'Show Comments & Discussions';
+        toggleIcon.textContent = '▼';
+    } else {
+        content.classList.add('show');
+        toggle.classList.remove('collapsed');
+        toggleText.textContent = 'Hide Comments & Discussions';
+        toggleIcon.textContent = '▲';
+    }
+}
+</script>
+
 {% endblock content %}
