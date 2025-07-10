@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True#turen off for vercel deployment
-DEBUG = False
+DEBUG=config('DEBUG')
 
 
 ALLOWED_HOSTS = [
