@@ -43,9 +43,17 @@ def ctf_type(request, type):
         raise Http404("CTF category not found")
 
     ctfs = CTFs.objects.filter(type=type_upper)
+
+    solved_ctf_ids = []
+    if request.user.is_authenticated:
+        solved_ctf_ids = list(
+            UserCTFProgress.objects.filter(user=request.user).values_list('ctf_id', flat=True)
+        )
+
     return render(request, 'ctfs/ctf_type.html', {
         'ctfs': ctfs,
-        'type': ctf_type_dict[type_upper]
+        'type': ctf_type_dict[type_upper],
+        'solved_ctf_ids' : solved_ctf_ids,
     })
 
 @login_required

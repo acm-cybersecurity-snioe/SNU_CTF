@@ -330,7 +330,8 @@ body.dark-mode .comments-toggle:hover {
 }
 
 .comments-toggle:not(.collapsed) .toggle-icon {
-    transform: rotate(180deg);
+    transform: rotate(360deg);
+    transition : transform 1s ease 
 }
 
 .comments-content {
