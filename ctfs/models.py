@@ -128,27 +128,23 @@ class UserCTFProgress(models.Model):
 
 
 
+    
+class Comments(models.Model):
 
-# Add this to your models.py - Update the Comment model
-
-class Comment(models.Model):
-    ctf = models.ForeignKey(CTFs, related_name='comments', on_delete=models.CASCADE)
+    ctf = models.ForeignKey(CTFs, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    posted_at = models.DateTimeField(auto_now_add=True)
-    
-    # New fields for reply system
-    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-    
-    class Meta:
-        ordering = ['-posted_at']
-    
+    content = models.TextField()
+    reply_comment = models.ForeignKey('self',null=True,blank=True, on_delete=models.CASCADE ,related_name='replies')
+    time = models.DateTimeField(auto_now_add=True)
+    upvotes = models.IntegerField(default=1)
+    downvotes = models.IntegerField(default=0)
+
+    # for making it readable 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.ctf.title}"
+        return f'Comment by {self.user.username} at {self.time}'
     
-    @property
-    def is_reply(self):
-        return self.parent is not None
+    # for checking if the comment is parent or not 
+    def is_root(self):
+        return self.reply_comment is None
+
     
-    def get_replies(self):
-        return self.replies.all().order_by('posted_at')

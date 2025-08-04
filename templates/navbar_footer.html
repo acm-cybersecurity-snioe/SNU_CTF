@@ -58,30 +58,34 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
-        <div class="github footer_links">
-            <a href="https://github.com/WifiXSmasher" target="_blank" class="footer_links">
-                <i class="fa-brands fa-github"></i>  
-                <p><b>Github-link</b></p>  
-            </a>
-        </div>
-        <div class="linkedin footer_links">
-            <a href="https://www.linkedin.com/in/ruchir-kalla-a58005286/">
-                <i class="fa-brands fa-linkedin"></i>
-                <p><b>LinkedIn</b></p>
-            </a>
-        </div>
-        <div class="mail footer_links">
-            <a href="mailto:rk336@snu.edu.in">
-                <i class="fa-solid fa-envelope"></i>
-                <p><b>GMail</b></p>
-            </a>        
-        </div>
-        <div class="phone footer_links">
-            <i class="fa-solid fa-phone"></i>
-            <p><b>+91 9413755584</b></p>
-        </div>
+   <!-- Footer -->
+{% block footer %}
+<div class="footer">
+    <div class="github footer_links">
+        <a href="https://github.com/WifiXSmasher" target="_blank" class="footer_links">
+            <i class="fa-brands fa-github"></i>  
+            <p><b>Github-link</b></p>  
+        </a>
     </div>
+    <div class="linkedin footer_links">
+        <a href="https://www.linkedin.com/in/ruchir-kalla-a58005286/">
+            <i class="fa-brands fa-linkedin"></i>
+            <p><b>LinkedIn</b></p>
+        </a>
+    </div>
+    <div class="mail footer_links">
+        <a href="mailto:rk336@snu.edu.in">
+            <i class="fa-solid fa-envelope"></i>
+            <p><b>GMail</b></p>
+        </a>        
+    </div>
+    <div class="phone footer_links">
+        <i class="fa-solid fa-phone"></i>
+        <p><b>+91 9413755584</b></p>
+    </div>
+</div>
+{% endblock footer %}
+
 
 
 {% comment %} ______________XXXXXXXXXXX______for dark mode____________XXXXXXXXX________ {% endcomment %}

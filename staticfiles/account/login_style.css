@@ -1,0 +1,98 @@
+/* Global Reset and Base Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f6f8fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container,
+.signin-container {
+    width: 100%;
+    max-width: 400px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.signin-container h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #24292f;
+    margin-bottom: 20px;
+}
+
+/* Paragraph below heading */
+.signup-prompt {
+    font-size: 14px;
+    text-align: center;
+    color: #57606a;
+    margin-bottom: 20px;
+}
+
+.signup-prompt a {
+    color: #0969da;
+    text-decoration: none;
+}
+
+.signup-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Button Group Styling */
+.signin-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+button[tags~="login"] {
+    padding: 12px;
+    font-size: 14px;
+    background-color: #24292f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button[tags~="login"]:hover {
+    background-color: #1a1e22;
+}
+
+/* Social Login Section */
+.social-login-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Separator Line */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #d0d7de;
+    margin: 20px 0;
+}
+
+/* Messages if present */
+.message-section {
+    background: #fff8dc;
+    padding: 10px;
+    border-left: 4px solid #f1c40f;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    color: #333;
+}

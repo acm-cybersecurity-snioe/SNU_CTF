@@ -26,8 +26,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True#turen off for vercel deployment
-DEBUG=config('DEBUG')
-
+# DEBUG=True
+DEBUG=config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -64,6 +64,10 @@ INSTALLED_APPS = [
     # Google provider
     'allauth.socialaccount.providers.google',
 
+    #for consistancy with whitenoise
+    'whitenoise.runserver_nostatic',
+
+
 ]
 SITE_ID = 1
 
@@ -73,6 +77,8 @@ INTERNAL_IPS = ['127.0.0.1']
 
 # NPM_BIN_PATH = '/usr/bin/npm'#removed for vercel(look into this)
 
+
+#any request that comes these codes run before going to views 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,7 +89,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',#look into this 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portfolio_django.urls'
@@ -184,7 +190,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+#this is where the white noise will look in for the static files 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')#look into it 
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -74,6 +74,8 @@
 
 </div>
 
+
+
 <!-- Comments Section -->
 <div class="comment-section">
   <hr>
@@ -82,7 +84,7 @@
   <button class="comments-toggle collapsed" id="comments-toggle" onclick="toggleComments()">
     <div class="toggle-content">
       <span id="toggle-text">Show Comments & Discussions</span>
-      <span class="comment-count">({{ comments.count }} comments)</span>
+     
     </div>
     <span class="toggle-icon" id="toggle-icon">▼</span>
   </button>
@@ -100,28 +102,17 @@
       </form>
     </div>
 
-    <!-- List comments -->
+    
     <div class="comments-list">
       {% for comment in comments %}
-        <div class="comment">
-          <div class="comment-header">
-            <div class="comment-meta">
-              <span class="comment-username">{{ comment.user.username }}</span>
-              <span class="comment-date">{{ comment.posted_at|date:"M d, Y H:i" }}</span>
-            </div>
-          </div>
-          
-          <div class="comment-text">
-            {{ comment.text|linebreaks }}
-          </div>
-        </div>
+        {% include 'ctfs/comment_recursive.html' with comment=comment %}
       {% empty %}
         <div class="no-comments">
           <p>No comments yet. Be the first to start the discussion!</p>
         </div>
       {% endfor %}
     </div>
-
+    
   </div>
 
 </div>
@@ -147,4 +138,14 @@ function toggleComments() {
 }
 </script>
 
+
+<script>
+  function toggleReplyForm(commentId) {
+    const form = document.getElementById(`reply-form-${commentId}`);
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  }
+  </script>
+
+  {% block footer %}{% endblock footer %}
+  
 {% endblock content %}

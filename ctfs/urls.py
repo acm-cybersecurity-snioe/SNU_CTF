@@ -13,8 +13,6 @@ urlpatterns = [
     path('<str:type>/', views.ctf_type, name='ctf_type'),
     
     # CTF detail using slug (preferred)
-    path('<str:type>/slug/<slug:slug>/', views.ctf_detail_slug, name='ctf_detail_slug'),
+    path('<str:type>/<slug:slug>/', views.ctf_detail_slug, name='ctf_detail_slug'),
     
-    # CTF detail using title (fallback for old URLs)
-    path('<str:type>/<str:title>/', views.ctf_detail, name='ctf_detail'),
 ]

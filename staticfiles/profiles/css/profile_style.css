@@ -1,20 +1,113 @@
+/* profile_style.css */
+
+/* Light mode variables */
+:root {
+    --bg-color: #f4f7fa;
+    --container-bg: #ffffff;
+    --container-border: #e0e0e0;
+    --container-shadow: rgba(0, 0, 0, 0.05);
+
+    --text-primary: #333;
+    --text-strong: #111;
+    --header-color: #222;
+    --header-border: #eee;
+
+    --button-red-bg: #dc2626;
+    --button-red-bg-hover: #b91c1c;
+    --button-red-color: white;
+
+    --button-blue-bg: #2563eb;
+    --button-blue-bg-hover: #1d4ed8;
+    --button-blue-color: white;
+
+    --button-gray-bg: #374151;
+    --button-gray-bg-hover: #1f2937;
+    --button-gray-color: white;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --container-border: #333;
+    --container-shadow: rgba(0, 0, 0, 0.8);
+
+    --text-primary: #ccc;
+    --text-strong: #eee;
+    --header-color: #eee;
+    --header-border: #444;
+
+    --button-red-bg: #dc4c4c;
+    --button-red-bg-hover: #b94444;
+    --button-red-color: white;
+
+    --button-blue-bg: #3a6ef0;
+    --button-blue-bg-hover: #2a54d8;
+    --button-blue-color: white;
+
+    --button-gray-bg: #555b67;
+    --button-gray-bg-hover: #3a3f47;
+    --button-gray-color: white;
+}
+
+/* Apply variables */
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
 .container {
     width: 95%;
     max-width: 1200px;
     min-height: calc(100vh - 150px);
     margin: 30px auto;
-    background: #ffffff;
-    border: 1px solid #e0e0e0;
+    background: var(--container-bg);
+    border: 1px solid var(--container-border);
     border-radius: 10px;
     padding: 60px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px var(--container-shadow);
     box-sizing: border-box;
+    position: relative;
+    /* for signout button */
+}
+
+/* Main profile content layout */
+.profile-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-bottom: 80px; /* Space for signout button */
+}
+
+/* User info section (left side) */
+.user-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Skill matrix wrapper (right side) */
+.skill-matrix-wrapper {
+    flex: 0 0 400px; /* Fixed width for the skill matrix */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 1;
+    margin-top: -50px;
+}
+
+#skill_matrix {
+    width: 100%;
+    max-width: 400px;
+    height: 350px; /* Match the chart height */
 }
 
 h2 {
     font-size: 36px;
-    color: #222;
-    border-bottom: 2px solid #eee;
+    color: var(--header-color);
+    border-bottom: 2px solid var(--header-border);
     padding-bottom: 20px;
     margin-bottom: 40px;
 }
@@ -23,12 +116,13 @@ h2 {
     margin: 20px 0;
     font-size: 20px;
     line-height: 1.7;
-    color: #333;
+    color: var(--text-primary);
+    align-items: center;
 }
 
 .space-y-3 span {
     font-weight: 700;
-    color: #111;
+    color: var(--text-strong);
     font-size: 22px;
 }
 
@@ -46,31 +140,34 @@ button {
     transition: background 0.3s;
 }
 
+/* Red button */
 .bg-red-600 {
-    background-color: #dc2626;
-    color: white;
+    background-color: var(--button-red-bg);
+    color: var(--button-red-color);
 }
 
 .bg-red-600:hover {
-    background-color: #b91c1c;
+    background-color: var(--button-red-bg-hover);
 }
 
+/* Blue button (if used) */
 .bg-blue-600 {
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--button-blue-bg);
+    color: var(--button-blue-color);
 }
 
 .bg-blue-600:hover {
-    background-color: #1d4ed8;
+    background-color: var(--button-blue-bg-hover);
 }
 
+/* Gray button (if used) */
 .bg-gray-700 {
-    background-color: #374151;
-    color: white;
+    background-color: var(--button-gray-bg);
+    color: var(--button-gray-color);
 }
 
 .bg-gray-700:hover {
-    background-color: #1f2937;
+    background-color: var(--button-gray-bg-hover);
 }
 
 .flex {
@@ -81,14 +178,26 @@ button {
     margin-left: 1.5rem;
 }
 
-.container {
-    position: relative;
-    /* Needed for absolute child positioning */
-}
-
-/* wrapper around the button */
+/* Sign out button wrapper */
 .signout-wrapper {
     position: absolute;
     bottom: 30px;
     right: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .skill-matrix-wrapper {
+        flex: none;
+        align-self: center;
+    }
+    
+    .container {
+        padding: 30px 20px;
+    }
 }

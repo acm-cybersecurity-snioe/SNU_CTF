@@ -74,6 +74,36 @@ body {
     /* for signout button */
 }
 
+/* Main profile content layout */
+.profile-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-bottom: 80px; /* Space for signout button */
+}
+
+/* User info section (left side) */
+.user-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Skill matrix wrapper (right side) */
+.skill-matrix-wrapper {
+    flex: 0 0 400px; /* Fixed width for the skill matrix */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-bottom: 1;
+    margin-top: -50px;
+}
+
+#skill_matrix {
+    width: 100%;
+    max-width: 400px;
+    height: 350px; /* Match the chart height */
+}
+
 h2 {
     font-size: 36px;
     color: var(--header-color);
@@ -87,6 +117,7 @@ h2 {
     font-size: 20px;
     line-height: 1.7;
     color: var(--text-primary);
+    align-items: center;
 }
 
 .space-y-3 span {
@@ -152,4 +183,21 @@ button {
     position: absolute;
     bottom: 30px;
     right: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .skill-matrix-wrapper {
+        flex: none;
+        align-self: center;
+    }
+    
+    .container {
+        padding: 30px 20px;
+    }
 }

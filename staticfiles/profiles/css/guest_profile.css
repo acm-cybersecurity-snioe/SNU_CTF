@@ -1,31 +1,61 @@
+/* Define light mode variables */
+:root {
+    --bg-color: #fff;
+    --text-color-primary: #222;
+    --text-color-secondary: #555;
+    --container-bg: #fff;
+    --container-shadow: rgba(0, 0, 0, 0.08);
+    --btn-blue-bg: #2563eb;
+    --btn-blue-hover: #1d4ed8;
+    --btn-gray-bg: #374151;
+    --btn-gray-hover: #1f2937;
+}
+
+/* Dark mode overrides */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color-primary: #eee;
+    --text-color-secondary: #bbb;
+    --container-bg: #1e1e1e;
+    --container-shadow: rgba(0, 0, 0, 0.8);
+    --btn-blue-bg: #3b82f6;
+    --btn-blue-hover: #2563eb;
+    --btn-gray-bg: #4b5563;
+    --btn-gray-hover: #374151;
+}
+
+/* Container styles */
 .guest-container {
     max-width: 450px;
     margin: 80px auto 40px auto;
-    background: #fff;
+    background: var(--container-bg);
     padding: 30px 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px var(--container-shadow);
     text-align: center;
 }
 
+/* Headings and text */
 .guest-container h2 {
     font-size: 28px;
     margin-bottom: 30px;
-    color: #222;
+    color: var(--text-color-primary);
 }
 
 .guest-container p {
     font-size: 18px;
-    color: #555;
+    color: var(--text-color-secondary);
     margin-bottom: 40px;
 }
 
+/* Buttons container */
 .guest-container .btn-group {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
+/* Buttons */
 .guest-container button {
     padding: 12px 28px;
     font-size: 16px;
@@ -34,22 +64,24 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
+    color: white;
+    /* buttons text always white */
 }
 
+/* Blue button */
 .bg-blue-600 {
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--btn-blue-bg);
 }
 
 .bg-blue-600:hover {
-    background-color: #1d4ed8;
+    background-color: var(--btn-blue-hover);
 }
 
+/* Gray button */
 .bg-gray-700 {
-    background-color: #374151;
-    color: white;
+    background-color: var(--btn-gray-bg);
 }
 
 .bg-gray-700:hover {
-    background-color: #1f2937;
+    background-color: var(--btn-gray-hover);
 }

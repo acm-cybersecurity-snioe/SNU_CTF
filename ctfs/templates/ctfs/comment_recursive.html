@@ -1,0 +1,33 @@
+<div class="comment">
+    <div class="comment-header">
+      <span class="comment-username">{{ comment.user.username }}</span>
+      <span class="comment-date">{{ comment.time|date:"M d, Y H:i" }}</span>
+    </div>
+  
+    <div class="comment-text">
+      {{ comment.content|linebreaks }}
+    </div>
+  
+    <!-- Reply form toggle -->
+    <button onclick="toggleReplyForm({{ comment.id }})" style="background-color:rgb(111, 131, 227); padding: 5px 10px; border-radius: 5px;">
+      ☝️ Ackchyually
+    </button>
+  
+    <!-- Reply form -->
+    <div class="reply-form" id="reply-form-{{ comment.id }}" style="display: none;">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <button type="submit" name="comment_submit" class="btn btn-sm">Post Reply</button>
+      </form>
+    </div>
+  
+    <!-- Render replies -->
+    <div class="replies">
+      {% for reply in comment.replies.all %}
+        {% include 'ctfs/comment_recursive.html' with comment=reply %}
+      {% endfor %}
+    </div>
+  </div>
+  

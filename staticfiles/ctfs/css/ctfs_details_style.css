@@ -1,47 +1,174 @@
-/* Full-page background and base font */
+/* Default Light Mode Variables */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1c1c1c;
+    --box-bg: #f8f9fa;
+    --btn-bg: #007bff;
+    --btn-hover: #0056b3;
+    --solved-bg: #d4edda;
+    --solved-border: #28a745;
+    --solved-text: #155724;
+    --meta-text: #444;
+
+    /* Comment section variables */
+    --comment-bg: #f8f9fa;
+    --comment-border: #e9ecef;
+    --comment-form-bg: #ffffff;
+    --comment-item-bg: #ffffff;
+    --comment-username-color: #667eea;
+    --comment-date-bg: #f8f9fa;
+    --comment-date-color: #6c757d;
+    --comment-text-color: #495057;
+    --comment-no-comments-bg: #ffffff;
+    --comment-no-comments-border: #dee2e6;
+    --input-border: #e9ecef;
+    --input-focus-border: #667eea;
+    --scrollbar-track: #f1f1f1;
+    --scrollbar-thumb: #c1c1c1;
+    --scrollbar-thumb-hover: #a8a8a8;
+}
+
+/* Dark Mode Overrides when body has .dark-mode class */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --box-bg: #1e1e1e;
+    --btn-bg: #1a73e8;
+    --btn-hover: #135fc1;
+    --solved-bg: #1d402b;
+    --solved-border: #34d058;
+    --solved-text: #9be9a8;
+    --meta-text: #cccccc;
+
+    /* Dark mode comment section variables */
+    --comment-bg: #2d2d2d;
+    --comment-border: #404040;
+    --comment-form-bg: #333333;
+    --comment-item-bg: #333333;
+    --comment-username-color: #8b9aff;
+    --comment-date-bg: #404040;
+    --comment-date-color: #cccccc;
+    --comment-text-color: #e1e1e1;
+    --comment-no-comments-bg: #333333;
+    --comment-no-comments-border: #555555;
+    --input-border: #555555;
+    --input-focus-border: #8b9aff;
+    --scrollbar-track: #404040;
+    --scrollbar-thumb: #666666;
+    --scrollbar-thumb-hover: #777777;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5;
+    background-color: var(--bg-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Large centered container with ~200px margin on each side */
 .ctf-detail-container {
-    width: calc(100% - 400px);
-    /* 200px on each side */
+    max-width: 1400px;
     margin: 40px auto;
     padding: 40px;
-    background-color: #ffffff;
+    background-color: var(--box-bg);
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     min-height: 80vh;
+    transition: background-color 0.3s ease;
 }
 
-/* Title */
 .ctf-title {
     font-size: 2.8em;
     margin-bottom: 25px;
     text-align: center;
-    color: #1c1c1c;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--btn-bg);
+    padding-bottom: 10px;
 }
 
-/* Meta information (type, date) */
+.back-button {
+    margin-bottom: 20px;
+}
+
+.ctf-meta {
+    background-color: var(--box-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
 .ctf-meta p {
     font-size: 1.3em;
     margin: 12px 0;
-    color: #444;
+    color: var(--meta-text);
 }
 
-/* Description */
 .ctf-description {
     margin-top: 30px;
     font-size: 1.2em;
     line-height: 1.8;
-    color: #333;
 }
 
-/* Form styling */
+.file-download,
+.messages {
+    margin: 20px 0;
+}
+
+.alert {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+}
+
+/* Dark mode alert overrides */
+body.dark-mode .alert-success {
+    background-color: #1d402b;
+    border: 1px solid #34d058;
+    color: #9be9a8;
+}
+
+body.dark-mode .alert-error {
+    background-color: #4a1e1e;
+    border: 1px solid #d73a49;
+    color: #f97583;
+}
+
+body.dark-mode .alert-info {
+    background-color: #1e3a40;
+    border: 1px solid #17a2b8;
+    color: #5bc0de;
+}
+
+.solved-box {
+    background-color: var(--solved-bg);
+    border: 2px solid var(--solved-border);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+    color: var(--solved-text);
+    font-weight: bold;
+}
+
 .ctf-form {
     margin-top: 40px;
     display: flex;
@@ -61,12 +188,15 @@ body {
     border-radius: 8px;
     margin-bottom: 20px;
     width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn {
     padding: 14px 20px;
     font-size: 1.1em;
-    background-color: #007bff;
+    background-color: var(--btn-bg);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -74,24 +204,331 @@ body {
     align-self: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: var(--btn-hover);
 }
 
-a.btn.download-btn {
-    display: inline-block;
-    padding: 8px 16px;
+.download-btn {
     background-color: #1db954;
-    /* Spotify green, for example */
+}
+
+.download-btn:hover {
+    background-color: #14833b;
+}
+
+.btn-back {
+    background-color: #6c757d;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    margin-right: 10px;
+}
+
+.btn-leaderboard {
+    background-color: #ffc107;
+}
+
+.nav-links {
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .ctf-detail-container {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .btn {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .form-control {
+        font-size: 1em;
+    }
+
+    .ctf-meta p {
+        font-size: 1.1em;
+    }
+}
+
+/* Comment section styles with dark mode support */
+.comment-section {
+    margin-top: 2rem;
+    padding: 0 1rem;
+}
+
+.comments-toggle {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+}
+
+/* Dark mode gradient for comments toggle */
+body.dark-mode .comments-toggle {
+    background: linear-gradient(135deg, #4c63d2 0%, #5a4b7c 100%);
+}
+
+.comments-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+body.dark-mode .comments-toggle:hover {
+    box-shadow: 0 6px 20px rgba(76, 99, 210, 0.4);
+}
+
+.comments-toggle.collapsed::before {
+    content: "⚠️ Spoiler Warning";
+    position: absolute;
+    top: -8px;
+    right: 15px;
+    font-size: 11px;
+    background: rgba(255, 193, 7, 0.9);
+    color: #212529;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.toggle-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.comment-count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.toggle-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.comments-toggle:not(.collapsed) .toggle-icon {
+    transform: rotate(360deg);
+    transition : transform 1s ease 
+}
+
+.comments-content {
+    display: none;
+    animation: slideDown 0.4s ease-out;
+    background: var(--comment-bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 10px;
+    border: 2px solid var(--comment-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.comments-content.show {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comment-form {
+    background: var(--comment-form-bg);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
 }
 
-a.btn.download-btn:hover {
-    background-color: #14833b;
+body.dark-mode .comment-form {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.comment-form h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.comment-form .form-control,
+.comment-form input[type="text"],
+.comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 10px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.comment-form .form-control:focus,
+.comment-form input[type="text"]:focus,
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+body.dark-mode .comment-form .form-control:focus,
+body.dark-mode .comment-form input[type="text"]:focus,
+body.dark-mode .comment-form textarea:focus {
+    box-shadow: 0 0 0 3px rgba(139, 154, 255, 0.2);
+}
+
+.comment-form .btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .comment-form .btn {
+    background: linear-gradient(135deg, #4c63d2 0%, #5a4b7c 100%);
+}
+
+.comment-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+body.dark-mode .comment-form .btn:hover {
+    box-shadow: 0 4px 15px rgba(76, 99, 210, 0.3);
+}
+
+.comments-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.comments-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 3px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 3px;
+}
+
+.comments-list::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+.comment {
+    min-height: 7em;
+    background: var(--comment-item-bg);
+    border-left: 0.2em solid #667eea;
+    padding: 1em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    border-radius: 1em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+
+body.dark-mode .comment {
+    border-left-color: #8b9aff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.comment:hover {
+    transform: translateX(5px);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+
+.comment-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.comment-username {
+    font-weight: bold;
+    color: var(--comment-username-color);
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.comment-date {
+    color: var(--comment-date-color);
+    font-size: 13px;
+    background: var(--comment-date-bg);
+    padding: 4px 10px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.comment-text {
+    line-height: 1.6;
+    color: var(--comment-text-color);
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.no-comments {
+    text-align: center;
+    color: var(--comment-date-color);
+    font-style: italic;
+    padding: 40px 20px;
+    background: var(--comment-no-comments-bg);
+    border-radius: 10px;
+    border: 2px dashed var(--comment-no-comments-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.no-comments p {
+    margin: 0;
+    font-size: 16px;
 }

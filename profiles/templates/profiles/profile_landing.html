@@ -8,11 +8,22 @@
 
     <h2>My Profile</h2>
     
-    <div class="space-y-3">
-        <p><span>Username:</span> {{ user.username }}</p>
-        <p><span>First Name:</span> {{ user.first_name }}</p>
-        <p><span>Last Name:</span> {{ user.last_name }}</p>
-        <p><span><b>Points:</b></span>{{total_points}}</p>
+    <!-- Main content wrapper with flexbox -->
+    <div class="profile-content">
+        <!-- Left side: User info -->
+        <div class="user-info">
+            <div class="space-y-3">
+                <p><span>Username:</span> {{ user.username }}</p>
+                <p><span>First Name:</span> {{ user.first_name }}</p>
+                <p><span>Last Name:</span> {{ user.last_name }}</p>
+                <p><span><b>Points:</b></span>{{total_points}}</p>
+            </div>
+        </div>
+        
+        <!-- Right side: Skill matrix -->
+        <div class="skill-matrix-wrapper">
+            <div id="skill_matrix"></div>
+        </div>
     </div>
 
     <div class="signout-wrapper">
@@ -22,4 +33,40 @@
         </form>
     </div>
 </div>
+ 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    var options = {
+        series: [{
+            name: 'Points',//change
+            data:  {{ category_points|safe }},//change
+            fill:{
+                colors:['#AB47BC']
+            }
+        }],
+        chart: {
+            height: 350,
+            type: 'radar',
+            toolbar: {
+                show: false
+            }
+        },
+        fill: {
+            colors: ['#AB47BC']
+        },
+        yaxis: {
+            
+            show:false,
+            stepSize: 20,
+            fillColor: 'AB47BC',
+        },
+        xaxis: {
+            categories: ["STG" , "WEB", "NET", "PRVESC", "ENM"]
+        }
+        
+    };
+    var chart = new ApexCharts(document.querySelector("#skill_matrix"), options);
+    chart.render();
+</script>
+
 {% endblock %}

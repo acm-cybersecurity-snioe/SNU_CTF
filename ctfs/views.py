@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,8 +11,8 @@ import mimetypes
 from django.db.models.functions import Coalesce
 from django.db.models import Value, IntegerField
 from django.db.models import Sum, Min,Max, Value, IntegerField,Count
-from .models import Comment
-from .forms import CommentForm
+from .models import Comments
+from .forms import Comments_form
 from django.db.models import F, Case, When
 from django.db.models import Sum, Count, Min, Max, Value, IntegerField, Case, When, F, OuterRef, Subquery
 from django.db.models.functions import Coalesce
@@ -56,76 +55,35 @@ def ctf_type(request, type):
         'solved_ctf_ids' : solved_ctf_ids,
     })
 
-@login_required
-def ctf_detail(request, type, title):
-    type_upper = type.upper()
-    
-    # Decode the URL-encoded title parameter
-    decoded_title = unquote(title)
-    
-    # Debug logging (remove in production)
-    print(f"Original title: {title}")
-    print(f"Decoded title: {decoded_title}")
-    print(f"Looking for CTF with type: {type_upper}, title: {decoded_title}")
-    
-    try:
-        ctf = CTFs.objects.get(type=type_upper, title=decoded_title)
-    except CTFs.DoesNotExist:
-        # Additional debug info
-        print("CTF not found. Available CTFs:")
-        for c in CTFs.objects.filter(type=type_upper):
-            print(f"  - '{c.title}'")
-        raise Http404("No CTFs matches the given query.")
-
-    # Check if already solved
-    solved = UserCTFProgress.objects.filter(user=request.user, ctf=ctf).exists()
-
-    # Get comments and form
-    comments = ctf.comments.order_by('-posted_at')
-    form = CommentForm()
-
-    if request.method == 'POST':
-        # Handle answer submission
-        if 'answer' in request.POST and 'comment_submit' not in request.POST:
-            user_answer = request.POST.get('answer', '').strip()
-            if user_answer.lower() == ctf.solution.lower():
-                if solved:
-                    messages.info(request, "You have already solved this challenge and received points.")
-                else:
-                    UserCTFProgress.objects.create(user=request.user, ctf=ctf, points_awarded=ctf.points)
-                    messages.success(request, f"Correct answer! You earned {ctf.points} points.")
-                return redirect('ctf_detail', type=type, title=title)
-            else:
-                messages.error(request, "Incorrect answer. Try again!")
-                return redirect('ctf_detail', type=type, title=title)
-        
-        # Handle comment submission
-        elif 'comment_submit' in request.POST:
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.ctf = ctf
-                comment.user = request.user
-                comment.save()
-                messages.success(request, "Comment added successfully.")
-                return redirect('ctf_detail', type=type, title=title)
-
-    return render(request, 'ctfs/ctf_details.html', {
-        'ctf': ctf, 
-        'solved': solved,
-        'comments': comments,
-        'form': form
-    })
-    
 
 @login_required
 def ctf_detail_slug(request, type, slug):
+    
     type_upper = type.upper()
-    ctf = get_object_or_404(CTFs, type=type_upper, slug=slug)
+    
+    # Try exact match first, then case-insensitive, then by title
+    try:
+        ctf = CTFs.objects.get(type=type_upper, slug=slug)
+    except CTFs.DoesNotExist:
+        try:
+            # Case-insensitive slug match
+            ctf = CTFs.objects.get(type=type_upper, slug__iexact=slug)
+        except CTFs.DoesNotExist:
+            try:
+                # Try matching by title (case-insensitive) as fallback
+                ctf = CTFs.objects.get(type=type_upper, title__iexact=slug)
+            except CTFs.DoesNotExist:
+                raise Http404("No CTFs matches the given query.")
+    
     solved = UserCTFProgress.objects.filter(user=request.user, ctf=ctf).exists()
 
-    comments = ctf.comments.order_by('-posted_at')
-    form = CommentForm()
+    # FIXED: Use 'time' instead of 'posted_at'
+    # comments = ctf.comments.order_by('-time')
+
+    #for rendering the root comments 
+    root_comments = ctf.comments.filter(reply_comment__isnull=True).order_by('time')
+
+    form = Comments_form()
 
     if request.method == 'POST':
         # Handle answer submission
@@ -144,19 +102,30 @@ def ctf_detail_slug(request, type, slug):
 
         # Handle comment submission
         elif 'comment_submit' in request.POST:
-            form = CommentForm(request.POST)
+            form = Comments_form(request.POST)
             if form.is_valid():
                 comment = form.save(commit=False)
                 comment.ctf = ctf
                 comment.user = request.user
+
+                # check if it's a reply to another comment
+                parent_id = request.POST.get('parent_id')
+                if parent_id:
+                    try:
+                        parent_comment = Comments.objects.get(id=parent_id)
+                        comment.reply_comment = parent_comment
+                    except Comments.DoesNotExist:
+                        pass
+
                 comment.save()
                 messages.success(request, "Comment added successfully.")
                 return redirect('ctf_detail_slug', type=type, slug=slug)
 
+
     return render(request, 'ctfs/ctf_details.html', {
         'ctf': ctf,
         'solved': solved,
-        'comments': comments,
+        'comments': root_comments,
         'form': form
     })
 
@@ -206,13 +175,13 @@ def leaderboard(request):
         x['user'].username  # Alphabetical for final tiebreak
     ))
     
-    # Debug output
-    print("Leaderboard Debug:")
-    for i, data in enumerate(leaderboard_data[:10]):
-        user = data['user']
-        print(f"#{i+1}: {user.username} - {data['total_points']} points - "
-              f"Reached current total: {data['time_reached_current_total']} - "
-              f"First: {data['first_solve_time']} - Last: {data['last_solve_time']}")
+    #  Debug 
+    # print("Leaderboard Debug:")
+    # for i, data in enumerate(leaderboard_data[:10]):
+    #     user = data['user']
+    #     print(f"#{i+1}: {user.username} - {data['total_points']} points - "
+    #           f"Reached current total: {data['time_reached_current_total']} - "
+    #           f"First: {data['first_solve_time']} - Last: {data['last_solve_time']}")
     
     # Add the calculated fields back to user objects for template
     for data in leaderboard_data:

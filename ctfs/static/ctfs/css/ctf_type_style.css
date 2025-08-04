@@ -72,12 +72,12 @@
     text-align: left;
 }
 
-.ctf-card p {
+/* .ctf-card p {
     font-size: 0.95rem;
     color: #333;
     margin: 0;
     text-align: left;
-}
+} */
 
 .ctf-card .btn {
     margin-top: auto;

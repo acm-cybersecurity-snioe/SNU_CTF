@@ -13,13 +13,16 @@ a {
 /* Navbar container */
 .navbar {
     height: 100px;
+    white-space: nowrap;
     background-color: #063275;
     color: aliceblue;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* Logo left, rest right */
     padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* Logo section */
@@ -29,9 +32,15 @@ a {
     padding: 5px;
 }
 
+.nav_logo button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
 .logo {
     background-image: url("../../icons/main_logo.png");
-    /* update path as needed */
     background-size: cover;
     background-position: center;
     width: 50px;
@@ -44,6 +53,23 @@ a {
     border: 2px solid whitesmoke;
 }
 
+/* Mobile menu toggle - hidden by default */
+.mobile-menu-toggle {
+    display: none;
+    font-size: 24px;
+    color: goldenrod;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+    transform: scale(1.1);
+}
+
+.mobile-menu-toggle.active {
+    color: beige;
+}
+
 /* Right side nav links */
 .nav_links {
     display: flex;
@@ -54,7 +80,7 @@ a {
 /* Common nav item styles */
 .aboutme,
 .secondary,
-.CTFs {
+.CTFs{
     width: 150px;
     height: 60px;
     display: flex;
@@ -64,6 +90,7 @@ a {
     font-size: x-large;
     color: goldenrod;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .MyProfile {
@@ -77,6 +104,8 @@ a {
     color: goldenrod;
 }
 
+
+
 .MyProfile i:hover {
     transform: scale(1.1);
     color: beige;
@@ -88,33 +117,65 @@ a {
     border-radius: 8px;
 }
 
-
 body {
     background-color: whitesmoke;
+    line-height: 1.6;
 }
 
-
+/* About section with improved structure */
 .about-section {
-    margin-top: 100px;
-    margin-right: 550px;
-    margin-left: 550px;
-    text-align: center;
+    margin: 50px auto;
+    max-width: 1200px;
+    padding: 0 20px;
     margin-bottom: 100px;
-
 }
 
+
+.about-content {
+    display: grid;
+    gap: 30px;
+}
+
+.content-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.content-section h3 {
+    color: #063275;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 3px solid #E3B23C;
+    padding-bottom: 10px;
+}
+
+.content-section p {
+    color: #333;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+/* Footer */
 .footer {
     font-size: larger;
     color: #E3B23C;
-    height: 500px;
+    min-height: 300px;
     text-align: left;
     background-color: #031D44;
     display: flex;
     align-items: center;
-    padding-left: 0px;
-    padding-right: 30px;
+    padding: 40px 30px;
     justify-content: space-between;
-    /* Adjust spacing as needed */
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .footer_links {
@@ -125,26 +186,30 @@ body {
     text-align: center;
     width: 200px;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    transition: transform 0.3s ease;
+}
+
+.footer_links:hover {
+    transform: translateY(-5px);
 }
 
 .footer_links i {
-    font-size: 100px;
+    font-size: 60px;
     transition: transform 0.3s ease, color 0.3s ease;
+    margin-bottom: 15px;
 }
 
-.footer_links a i :hover {
+.footer_links:hover i {
     transform: scale(1.1);
+    color: #f0f0f0;
 }
 
 .footer_links p {
     margin-top: 10px;
+    font-size: 1rem;
 }
 
-
-/* ____________________XXXXXXXX________for dark mode _______________XXXXXXXXXXXXXXXXXXXXXX */
-
+/* Dark mode styles */
 body.dark-mode {
     background-color: #121212;
     color: #f0f0f0;
@@ -155,12 +220,6 @@ body.dark-mode .navbar {
     color: #f0f0f0;
 }
 
-body.dark-mode .aboutme,
-body.dark-mode .secondary,
-body.dark-mode .CTFs,
-body.dark-mode .MyProfile {
-    color: #ffcc00;
-}
 
 body.dark-mode .footer {
     background-color: #000c1a;
@@ -169,4 +228,248 @@ body.dark-mode .footer {
 
 body.dark-mode .logo:hover {
     border: 2px solid #f0f0f0;
+}
+
+
+body.dark-mode .content-section {
+    background: #1e1e1e;
+    color: #f0f0f0;
+}
+
+body.dark-mode .content-section h3 {
+    color: #ffcc00;
+    border-bottom-color: #ffcc00;
+}
+
+body.dark-mode .content-section p {
+    color: #e0e0e0;
+}
+
+/* Tablet styles */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0 20px;
+        height: 80px;
+    }
+
+    .nav_links {
+        gap: 15px;
+    }
+
+    .aboutme,
+    .secondary,
+    .CTFs {
+        width: 120px;
+        height: 50px;
+        font-size: large;
+    }
+
+    .MyProfile {
+        height: 50px;
+        width: 50px;
+        font-size: 28px;
+    }
+
+    .about-section {
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    .content-section {
+        padding: 25px;
+    }
+
+    .footer {
+        padding: 30px 15px;
+        min-height: 250px;
+    }
+
+    .footer_links {
+        width: 150px;
+        height: 150px;
+    }
+
+    .footer_links i {
+        font-size: 45px;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .navbar {
+        height: 70px;
+        padding: 0 15px;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .nav_links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background-color: #063275;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 30px;
+        padding-top: 50px;
+        transition: right 0.3s ease;
+        z-index: 999;
+    }
+
+    .nav_links.active {
+        right: 0;
+    }
+
+    .aboutme,
+    .secondary,
+    .CTFs {
+        width: 200px;
+        height: 60px;
+        font-size: x-large;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .MyProfile {
+        height: 60px;
+        width: 60px;
+        font-size: 35px;
+    }
+
+    .about-section {
+        margin: 20px auto;
+        padding: 0 10px;
+        margin-bottom: 50px;
+    }
+
+
+    .content-section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .content-section h3 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+
+    .content-section p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 15px;
+        min-height: auto;
+        gap: 30px;
+    }
+
+    .footer_links {
+        width: 120px;
+        height: 120px;
+    }
+
+    .footer_links i {
+        font-size: 40px;
+    }
+
+    .footer_links p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small mobile styles */
+@media (max-width: 480px) {
+    .navbar {
+        height: 60px;
+        padding: 0 10px;
+    }
+
+    .nav_links {
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+
+    .nav_logo {
+        height: 40px;
+        width: 40px;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobile-menu-toggle {
+        font-size: 20px;
+    }
+
+    .content-section {
+        padding: 15px;
+    }
+
+    .content-section h3 {
+        font-size: 1.2rem;
+    }
+
+    .content-section p {
+        font-size: 0.95rem;
+    }
+
+    .footer_links {
+        width: 100px;
+        height: 100px;
+    }
+
+    .footer_links i {
+        font-size: 35px;
+    }
+
+    .footer_links p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Dark mode responsive adjustments */
+body.dark-mode .nav_links {
+    background-color: #001f4d;
+}
+
+@media (max-width: 768px) {
+    body.dark-mode .nav_links {
+        background-color: #001f4d;
+    }
+}
+
+
+.theme_toggle * {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: goldenrod;
+    align-items: flex-end;
+}
+.theme-toggle {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.theme_toggle i {
+    font-size: 35px !important;
+    /* increase size here */
+    line-height: 1;
+    display: flex;
+    
 }

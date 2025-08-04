@@ -1,0 +1,38 @@
+.social-divider {
+    border: none;
+    border-top: 1px solid #d0d7de;
+    margin: 24px 0 16px 0;
+}
+
+.social-heading {
+    font-size: 16px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.social-login-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.social-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #ffffff;
+    color: #1f2328;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.social-btn:hover {
+    background-color: #000000;
+    color: whitesmoke   ;
+    text-decoration: none;
+}
