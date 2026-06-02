@@ -9,8 +9,8 @@
     </div>
   
     <!-- Reply form toggle -->
-    <button onclick="toggleReplyForm({{ comment.id }})" style="background-color:rgb(111, 131, 227); padding: 5px 10px; border-radius: 5px;">
-      ☝️ Ackchyually
+    <button class="reply-toggle" onclick="toggleReplyForm({{ comment.id }})">
+      Reply
     </button>
   
     <!-- Reply form -->
@@ -29,5 +29,4 @@
         {% include 'ctfs/comment_recursive.html' with comment=reply %}
       {% endfor %}
     </div>
-  </div>
-  
+  </div>  

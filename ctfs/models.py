@@ -15,6 +15,7 @@ class CTFs(models.Model):
         ('NET', 'Networks'),
         ('PVE', 'Privilege Escalation'),
         ('ENM', 'Enumeration'),
+        ('REV', 'Reverse Engineering')
     ]
 
     # 2. Hardcoded categories — this is the new addition

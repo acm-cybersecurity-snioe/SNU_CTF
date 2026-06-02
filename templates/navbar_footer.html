@@ -5,13 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block head_title %}localhostxD{% endblock %}</title>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode-pending');
+        }
+    </script>
 
     {% comment %} css for the profile_landing and the guest_landing pages {% endcomment %}
 
     
     {% comment %} Optional: Custom stylesheet if needed {% endcomment %}
-    <link rel="stylesheet" href="{% static 'base/css/base_style.css' %}" />
-
+    <link rel="stylesheet" href="{% static 'base/css/base_style.css' %}?v=20260602-navbar-switch" />
     {% comment %} FontAwesome for icons {% endcomment %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
@@ -19,6 +23,12 @@
 </head>
 
 <body>
+    <script>
+        if (document.documentElement.classList.contains('dark-mode-pending')) {
+            document.body.classList.add('dark-mode');
+            document.documentElement.classList.remove('dark-mode-pending');
+        }
+    </script>
     
     <!-- Navbar -->
     <div class="navbar">
@@ -37,10 +47,14 @@
         
         <div class="nav_links">
             <div class="theme_toggle">
-             <button id="theme-toggle">
-               <i class="fa-solid fa-cloud-sun"></i>
-            </button>
-        </div>
+                <button id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+                    <span class="toggle-track" aria-hidden="true">
+                        <span class="toggle-thumb">
+                            <i class="fa-solid fa-sun"></i>
+                        </span>
+                    </span>
+                </button>
+            </div>
             <a href="{%url 'index'%}"><div class="aboutme border"><p>About Me</p></div></a>
             {% comment %} <a href="{%url 'my_projects'%}"><div class="myprojects secondary border"><p>My Projects</p></div></a> {% endcomment %}
             <a href="{%url 'ctfs_url'%}"><div class="CTFs border secondary"><p>CTFs</p></div></a>
@@ -73,6 +87,12 @@
             <p><b>LinkedIn</b></p>
         </a>
     </div>
+    <div class="leetcode footer_links">
+        <a href="https://leetcode.com/u/Wifi_X_Smasher/" target="_blank" class="footer_links">
+            <i class="fa-solid fa-code"></i>
+            <p><b>LeetCode</b></p>
+        </a>
+    </div>
     <div class="mail footer_links">
         <a href="mailto:rk336@snu.edu.in">
             <i class="fa-solid fa-envelope"></i>
@@ -93,19 +113,25 @@
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // Apply dark mode from localStorage if set
-    if (localStorage.getItem('theme') === 'dark') {
-        body.classList.add('dark-mode');
-    }
+    const syncThemeToggle = () => {
+        const isDark = body.classList.contains('dark-mode');
+        toggleButton.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        const icon = toggleButton.querySelector('i');
+        if (icon) {
+            icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+    };
+
+    syncThemeToggle();
 
     toggleButton.addEventListener('click', () => {
         body.classList.toggle('dark-mode');
-        // Save preference
         if (body.classList.contains('dark-mode')) {
             localStorage.setItem('theme', 'dark');
         } else {
             localStorage.setItem('theme', 'light');
         }
+        syncThemeToggle();
     });
 
     // Mobile menu toggle
@@ -128,4 +154,9 @@
 {% comment %} ____________________XXXXXXXXXXX______f________XXXXXXXX_______________XXXXXXXXXXXXXXXX {% endcomment %}
 
 </body>
+
+
+
+
+
 </html>

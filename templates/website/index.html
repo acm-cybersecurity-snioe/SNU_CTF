@@ -1,27 +1,445 @@
 {% extends "navbar_footer.html" %}
 
-{% block title %}
-Home Page
+{% block head_title %}
+Ruchir Kalla | Backend Developer
 {% endblock %}
 
 {% block content %}
-    <div class="about-section">
 
-        <div class="about-content">
-            <div class="content-section">
-                <h3>About Me</h3>
-                <p>I'm Ruchir U Kalla A.K.A shreeji currently serving as the CyberSec Tech Lead of ACM. i have an interst in the field of networks and security, and all things fun.</p>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500&display=swap');
 
-                <p>this app was built by me for the students of snu to compete with each other in CTF challenges  I really hope you enjoy  yourselfs, and maybe even discover some new tricks along the way and discuss with me </p>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-                <h3>Projects & Experience</h3>
-                <p>Just a small background  over time I’ve picked up a few things here and there. Built this site using Django — figured it’d be cool to have a space where we can all mess around with CTFs and learn together. I’ve also worked on a web scraper in Python that pulls vulnerability info from vendor sites and sends out alerts — nothing too fancy, but it does the job. Got into some Wi-Fi security stuff too, like playing around with Scapy to see how networks behave and where things can go wrong (IN . A . LEGEAL  .WAY), I wrote a basic server programs to help me understand how the backend really works. I’m still learning as I go,  but if you’re curious, want to learn, or just want to tinker around — welcome aboard!</p>
+  .home-page {
+    --bg: rgba(214,231,239,0.34);
+    --bg2: rgba(225,238,244,0.54);
+    --bg3: rgba(235,245,248,0.72);
+    --border: rgba(12,23,41,0.12);
+    --border-hover: rgba(12,23,41,0.24);
+    --text: #0c1729;
+    --muted: #617086;
+    --body-text: #435166;
+    --accent: #876f48;
+    --accent2: #397b61;
+    --font-display: 'DM Serif Display', serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
 
-                
-               <h3>Future Goals</h3>
-<p>Looking ahead, the dream is to turn this platform into more than just a learning space — we want to build a vibrant community around CTFs and everything cybersecurity. A place where folks can team up, share ideas, and grow together, whether you're just starting out or deep into the game. Long-term, we’d love to take things to the next level by hosting our very own CTF competition — one that challenges, inspires, and puts our team and university on the map.</p>
+  body.dark-mode .home-page {
+    --bg: rgba(10,20,38,0.74);
+    --bg2: rgba(13,27,48,0.88);
+    --bg3: rgba(24,43,68,0.94);
+    --border: rgba(226,238,255,0.18);
+    --border-hover: rgba(226,238,255,0.34);
+    --text: #f8fbff;
+    --muted: #d2deea;
+    --body-text: #e3edf7;
+    --accent: #ead5ad;
+    --accent2: #9bd7ad;
+  }
 
-            </div>
+  .home-page {
+    font-family: var(--font-body); font-size: 18px; font-weight: 400; line-height: 1.75; color: var(--text);
+    transition: color 0.35s ease;
+  }
+
+  .snapshot,
+  .snap-status,
+  .snap-cell,
+  .folder-group,
+  .story-card,
+  .tag {
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+  }
+
+  .hero h1,
+  .hero-text,
+  .hero-alias,
+  .snap-status span,
+  .snap-cell strong,
+  .snap-cell span,
+  .folder-name,
+  .folder-meta,
+  .project-name,
+  .project-desc,
+  .story-card h2,
+  .story-card p {
+    transition: color 0.35s ease;
+  }
+
+  .page-inner { max-width: 920px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+
+  /* ── HERO ── */
+  .hero { padding: 5rem 0 4rem; }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    letter-spacing: 0.15em; color: var(--accent);
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 400; line-height: 1.05;
+    color: var(--text); margin-bottom: 0.4rem;
+  }
+  .hero-alias {
+    font-family: var(--font-mono); font-size: 0.95rem;
+    color: var(--muted); margin-bottom: 2rem;
+  }
+  .hero-text {
+    font-size: clamp(1.15rem, 1.7vw, 1.3rem); line-height: 1.75;
+    color: var(--body-text); max-width: 660px; margin-bottom: 2.5rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.7rem 1.4rem; background: var(--accent);
+    color: #111; font-family: var(--font-body); font-size: 1rem;
+    font-weight: 500; border: none; border-radius: 4px;
+    cursor: pointer; text-decoration: none; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.7rem 1.4rem; background: transparent;
+    color: var(--text); font-family: var(--font-body);
+    font-size: 1rem; border: 1px solid var(--border-hover);
+    border-radius: 4px; cursor: pointer; text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* ── SNAPSHOT CARD ── */
+  .snapshot {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; margin-bottom: 5rem;
+  }
+  .snap-status {
+    grid-column: 1 / -1; display: flex; align-items: center;
+    gap: 8px; background: var(--bg2); padding: 0.8rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent2); box-shadow: 0 0 6px var(--accent2);
+    flex-shrink: 0;
+  }
+  .snap-status span { font-size: 0.85rem; font-family: var(--font-mono); color: var(--muted); }
+  .snap-cell { background: var(--bg2); padding: 1.2rem 1.4rem; }
+  .snap-cell strong { display: block; font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .snap-cell span { font-size: 0.85rem; color: var(--muted); font-family: var(--font-mono); }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: var(--font-mono); font-size: 0.8rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── WORK TIMELINE ── */
+  .work-stack { position: relative; padding-left: 1.4rem; }
+  .work-stack::before {
+    content: ''; position: absolute; left: 5px; top: 1.2rem; bottom: 5rem;
+    width: 1px; background: linear-gradient(to bottom, transparent, var(--border-hover) 8%, var(--border-hover) 92%, transparent);
+  }
+  /* ── FOLDER GROUP ── */
+  .folder-group {
+    position: relative; margin-bottom: 1rem; border: 1px solid var(--border);
+    border-radius: 10px; overflow: visible; background: var(--bg2);
+  }
+  .folder-group::before {
+    content: ''; position: absolute; left: -1.65rem; top: 1.35rem;
+    width: 9px; height: 9px; border: 1px solid var(--accent);
+    border-radius: 50%; background: var(--bg); box-shadow: 0 0 10px rgba(200,184,154,0.28);
+  }
+  .folder-tab {
+    display: flex; align-items: center; gap: 10px;
+    padding: 1rem 1.4rem; cursor: pointer; user-select: none;
+    transition: background 0.2s; border-bottom: 1px solid transparent;
+  }
+  .folder-tab:hover { background: var(--bg3); }
+  .folder-tab.open { border-bottom-color: var(--border); }
+
+  .folder-icon { width: 28px; height: 22px; position: relative; flex-shrink: 0; }
+  .folder-icon svg { width: 100%; height: 100%; }
+
+  .folder-name { font-size: 1.05rem; font-weight: 600; color: var(--text); flex: 1; }
+  .folder-meta { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted); }
+
+  .folder-chevron {
+    width: 14px; height: 14px; color: var(--muted);
+    transition: transform 0.3s ease; flex-shrink: 0;
+  }
+  .folder-tab.open .folder-chevron { transform: rotate(90deg); }
+
+  .folder-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+  .folder-body.open { grid-template-rows: 1fr; }
+  .folder-inner { overflow: hidden; }
+
+  /* ── PROJECT CARD ── */
+  .project-card { padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--border); }
+  .project-card:last-child { border-bottom: none; }
+  .project-card-header {
+    display: flex; align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.5rem; gap: 1rem; flex-wrap: wrap;
+  }
+  .project-name { font-size: 1.08rem; font-weight: 600; color: var(--text); }
+  .project-link { font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); text-decoration: none; }
+  .project-link:hover { text-decoration: underline; }
+  .project-desc { font-size: 1.05rem; line-height: 1.75; color: var(--body-text); }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.8rem; }
+  .tag {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    padding: 3px 8px; border: 1px solid var(--border);
+    border-radius: 3px; color: var(--muted); letter-spacing: 0.05em;
+  }
+
+  /* ── STORY CARDS ── */
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 5rem; }
+  .story-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.4rem 1.6rem;
+  }
+  .story-card.wide { grid-column: 1 / -1; }
+  .story-kicker {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.7rem;
+  }
+  .story-card h2 {
+    font-family: var(--font-display); font-size: 1.45rem;
+    font-weight: 400; line-height: 1.3; color: var(--text);
+    margin-bottom: 0.6rem; font-style: italic;
+  }
+  .story-card p { font-size: 1.05rem; line-height: 1.75; color: var(--body-text); }
+  .story-card a { color: var(--accent); text-decoration: none; }
+  .story-card a:hover { text-decoration: underline; }
+
+  /* ── CONTACT ROW ── */
+  .contact-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .contact-row a { font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); text-decoration: none; }
+  .contact-row a:hover { color: var(--text); }
+
+  @media (max-width: 600px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-card.wide { grid-column: 1; }
+    .folder-meta { display: none; }
+  }
+
+</style>
+
+<main class="home-page" id="about">
+  <div class="page-inner">
+
+    <!-- HERO -->
+    <section class="hero">
+      <p class="hero-eyebrow">Backend Development  · Cybersecurity Enthusiast</p>
+      <h1>Ruchir .U. Kalla</h1>
+      <p class="hero-alias">// aka shreeji</p>
+      <p class="hero-text">
+        I build backend systems that handle real load, real data, and real business logic.
+        Currently a backend developer at Flipvex Creative Solutions, and a Forth-year
+        CS student at Shiv Nadar University.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#work">View work ↓</a>
+        <a class="btn-ghost" href="{% url 'ctfs_url' %}">Enter CTFs</a>
+      </div>
+    </section>
+
+   
+    <!-- WORK SECTION -->
+    <div class="section-label" id="work">Work</div>
+
+    <div class="work-stack">
+
+    <!-- Flipvex folder -->
+    <div class="folder-group">
+      <div class="folder-tab open" onclick="toggleFolder(this)">
+        <div class="folder-icon">
+          <svg viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6C2 4.9 2.9 4 4 4H11L13 6H24C25.1 6 26 6.9 26 8V18C26 19.1 25.1 20 24 20H4C2.9 20 2 19.1 2 18V6Z" fill="#c8b89a" fill-opacity="0.15" stroke="#c8b89a" stroke-width="1.2"/>
+            <path d="M2 9H26" stroke="#c8b89a" stroke-width="0.8" stroke-opacity="0.4"/>
+          </svg>
         </div>
+        <span class="folder-name">Flipvex Creative Solutions</span>
+        <span class="folder-meta">3 projects · 2026–present</span>
+        <svg class="folder-chevron" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="folder-body open">
+        <div class="folder-inner">
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">SENS Hardware Platform</span>
+            </div>
+            <p class="project-desc">A hardware retail client needed a backend that could handle concurrent reservations without breaking. Architected the full system — reservation logic, Redis caching, rate limiting, and REST APIs. Every layer designed by me.</p>
+            <div class="project-tags">
+              <span class="tag">Django REST</span>
+              <span class="tag">Redis</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Rate limiting</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">Prakrithijaivakalavara</span>
+              <a class="project-link" href="https://prakrithijaivakalavara.com" target="_blank" rel="noopener">prakrithijaivakalavara.com ↗</a>
+            </div>
+            <p class="project-desc">Built the reservation system for a live production site. The core problem was concurrency — simultaneous bookings causing inconsistent state. Solved it cleanly.</p>
+            <div class="project-tags">
+              <span class="tag">Django REST</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Concurrency</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">KAP Transports</span>
+              <a class="project-link" href="https://github.com/WifiXSmasher/KAP_Transport" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <p class="project-desc">A Kerala logistics company was running operations entirely on paper. Built them a full transport management system — LR vouchers, billing, multi-stop routes, consigner reports, and database backups. Packaged with a .bat installer so non-technical staff could run it without help.</p>
+            <div class="project-tags">
+              <span class="tag">Django</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">Full-stack</span>
+              <span class="tag">Local deployment</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+
+    <!-- Fortis folder -->
+    <div class="folder-group">
+      <div class="folder-tab" onclick="toggleFolder(this)">
+        <div class="folder-icon">
+          <svg viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6C2 4.9 2.9 4 4 4H11L13 6H24C25.1 6 26 6.9 26 8V18C26 19.1 25.1 20 24 20H4C2.9 20 2 19.1 2 18V6Z" fill="#7a9e87" fill-opacity="0.15" stroke="#7a9e87" stroke-width="1.2"/>
+            <path d="M2 9H26" stroke="#7a9e87" stroke-width="0.8" stroke-opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="folder-name">Fortis Healthcare</span>
+        <span class="folder-meta">1 project · internship 2025</span>
+        <svg class="folder-chevron" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="folder-body">
+        <div class="folder-inner">
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">Vulnerability Reporting Dashboard</span>
+            </div>
+            <p class="project-desc">The security team was generating vulnerability reports manually — cross-referencing spreadsheets, entering data by hand. Built a Django dashboard pulling live data from Tenable, made the whole thing real-time, and cut reporting effort by 90%. Also mapped exposed services across 100+ organizational assets using Tenable and Censys.</p>
+            <div class="project-tags">
+              <span class="tag">Django</span>
+              <span class="tag">Tenable API</span>
+              <span class="tag">Censys</span>
+              <span class="tag">Security</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SNU folder -->
+    <div class="folder-group" style="margin-bottom: 4rem;">
+      <div class="folder-tab" onclick="toggleFolder(this)">
+        <div class="folder-icon">
+          <svg viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6C2 4.9 2.9 4 4 4H11L13 6H24C25.1 6 26 6.9 26 8V18C26 19.1 25.1 20 24 20H4C2.9 20 2 19.1 2 18V6Z" fill="#888" fill-opacity="0.12" stroke="#666" stroke-width="1.2"/>
+            <path d="M2 9H26" stroke="#666" stroke-width="0.8" stroke-opacity="0.4"/>
+          </svg>
+        </div>
+        <span class="folder-name">SNU — Built for campus</span>
+        <span class="folder-meta">2 projects</span>
+        <svg class="folder-chevron" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="folder-body">
+        <div class="folder-inner">
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">CTF Platform</span>
+              <a class="project-link" href="{% url 'ctfs_url' %}">ruchirukalla.fyi ↗</a>
+            </div>
+            <p class="project-desc">Shiv Nadar didn't have a platform for hands-on cybersecurity practice, so I built one. Secure flag submission, real-time scoreboard, Reddit-style discussion threads, admin dashboard. 60+ registered users, 30+ active.</p>
+            <div class="project-tags">
+              <span class="tag">Django</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Supabase</span>
+              <span class="tag">Vercel</span>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-card-header">
+              <span class="project-name">Attendance Assistant</span>
+              <a class="project-link" href="https://github.com/WifiXSmasher/SNU_attendance_assitant" target="_blank" rel="noopener">GitHub ↗</a>
+            </div>
+            <p class="project-desc">The university ERP tells you your attendance percentage but makes it annoying to track daily. Built a Chrome extension that hooks directly into it and does the math for you. 30+ students use it.</p>
+            <div class="project-tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Chrome Extension API</span>
+              <span class="tag">ERP integration</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- ABOUT -->
+    <div class="section-label">About</div>
+
+    <div class="story-grid">
+      <div class="story-card">
+        <p class="story-kicker">Background</p>
+        <h2>Security-aware by default.</h2>
+        <p>Started in cybersecurity — Top 1% on TryHackMe — and moved into backend development without leaving that mindset behind.</p>
+      </div>
+      <div class="story-card">
+        <p class="story-kicker">Now</p>
+        <h2>Shipping production systems at Flipvex.</h2>
+        <p>Only backend developer. Three client systems built from scratch. Concurrency, caching, API design — handled end to end.</p>
+      </div>
+      <div class="story-card wide">
+        <p class="story-kicker">Open to</p>
+        <h2>Freelance work and campus opportunities.</h2>
+        <p>Looking for backend projects where the problem is real and the work is serious. If you need clean architecture, reliable APIs, or someone who thinks about security from line one — <a href="mailto:rk336@snu.edu.in">get in touch</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+function toggleFolder(tab) {
+  const isOpen = tab.classList.contains('open');
+  tab.classList.toggle('open', !isOpen);
+  const body = tab.nextElementSibling;
+  body.classList.toggle('open', !isOpen);
+}
+</script>
+
 {% endblock %}

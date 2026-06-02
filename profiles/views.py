@@ -17,8 +17,8 @@ def profile_landing(request):
         )['points']
 
         # Define categories (CTF types)
-        ctf_types = ["STG", "WEB", "NET", "PVE", "ENM"]
-        category_labels = ["Steganography", "Web Security", "Networks", "Privilege Escalation", "Enumeration"]
+        ctf_types = ["STG", "WEB", "NET", "PVE", "ENM", "REV"]
+        category_labels = ["Steganography", "Web Security", "Networks", "Privilege Escalation", "Enumeration", "Reverse Engineering"]
         
         # Calculate points per CTF type
         category_points = []

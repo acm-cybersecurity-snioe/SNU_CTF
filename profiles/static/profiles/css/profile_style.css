@@ -27,15 +27,15 @@
 
 /* Dark mode overrides */
 body.dark-mode {
-    --bg-color: #121212;
-    --container-bg: #1e1e1e;
-    --container-border: #333;
+    --bg-color: transparent;
+    --container-bg: rgba(12, 24, 45, 0.84);
+    --container-border: rgba(255, 255, 255, 0.18);
     --container-shadow: rgba(0, 0, 0, 0.8);
 
-    --text-primary: #ccc;
-    --text-strong: #eee;
-    --header-color: #eee;
-    --header-border: #444;
+    --text-primary: #d8e8f7;
+    --text-strong: #ffffff;
+    --header-color: #f4fbff;
+    --header-border: rgba(255, 255, 255, 0.2);
 
     --button-red-bg: #dc4c4c;
     --button-red-bg-hover: #b94444;
@@ -71,6 +71,8 @@ body {
     box-shadow: 0 4px 12px var(--container-shadow);
     box-sizing: border-box;
     position: relative;
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
     /* for signout button */
 }
 
@@ -114,7 +116,7 @@ h2 {
 
 .space-y-3 p {
     margin: 20px 0;
-    font-size: 20px;
+    font-size: clamp(1.2rem, 2vw, 1.35rem);
     line-height: 1.7;
     color: var(--text-primary);
     align-items: center;
@@ -123,7 +125,7 @@ h2 {
 .space-y-3 span {
     font-weight: 700;
     color: var(--text-strong);
-    font-size: 22px;
+    font-size: clamp(1.28rem, 2.2vw, 1.5rem);
 }
 
 .mt-6 {
@@ -138,6 +140,20 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
+}
+
+.subscription {
+    margin-top: 28px;
+    color: var(--text-primary);
+    font-size: 1.08rem;
+    line-height: 1.7;
+}
+
+.subscription i {
+    display: inline-block;
+    max-width: 620px;
+    color: var(--text-primary);
+    opacity: 0.95;
 }
 
 /* Red button */

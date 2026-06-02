@@ -4,8 +4,7 @@
 {% block title %}{{ ctf.title }}{% endblock title %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'ctfs/css/ctfs_details_style.css' %}" />
-<link rel="stylesheet" href="{% static 'ctfs/css/comments_dropdown.css' %}" />
+<link rel="stylesheet" href="{% static 'ctfs/css/ctfs_details_style.css' %}?v=20260602-readable" />
 
 <div class="ctf-detail-container">
   <!-- Back button -->
@@ -78,8 +77,7 @@
 
 <!-- Comments Section -->
 <div class="comment-section">
-  <hr>
-  
+
   <!-- Toggle button for comments -->
   <button class="comments-toggle collapsed" id="comments-toggle" onclick="toggleComments()">
     <div class="toggle-content">
@@ -146,6 +144,4 @@ function toggleComments() {
   }
   </script>
 
-  {% block footer %}{% endblock footer %}
-  
 {% endblock content %}
