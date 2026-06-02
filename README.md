@@ -1,2 +1,2 @@
-this site is mainly for showcasing my skills and make a gamified portal for the CTF activities of ACM.
+this site is mainly for SNU ACM's cybersec team. 
 
